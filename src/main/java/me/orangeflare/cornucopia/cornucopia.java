@@ -17,7 +17,7 @@ public class cornucopia {
         bot.getDispatcher().registerListener(new coreCommands());
         bot.login();
     }
-    public static IDiscordClient getBuiltDiscordClient(String botToken) {
+    private static IDiscordClient getBuiltDiscordClient(String botToken) {
         return new ClientBuilder().withToken(botToken).build();
     }
 }
