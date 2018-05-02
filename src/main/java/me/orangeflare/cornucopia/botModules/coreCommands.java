@@ -22,16 +22,16 @@ public class coreCommands {
             }
         });
     }
-    public static String getDisplayName(MessageReceivedEvent event) { return event.getAuthor().getDisplayName(event.getGuild()); }
+    public static String getDisplayName(MessageReceivedEvent event) { return event.getAuthor().getDisplayName(event.getGuild()) + " (" + event.getAuthor().getName() + ")"; }
+
     @EventSubscriber
-    private void onMessageReceived(MessageReceivedEvent event) {
+    public void onMessageReceived(MessageReceivedEvent event) {
         String[] argArray = event.getMessage().getContent().split(" ");
         if (argArray.length == 0) { return; }
         if (!argArray[0].toLowerCase().startsWith(cornucopia.BOT_PREFIX)) { return; }
-        String command = argArray[0].substring(1).toLowerCase();
+        String command = argArray[0].substring(2).toLowerCase();
         List<String> argsList = new ArrayList<>(Arrays.asList(argArray));
         argsList.remove(0);
-
         switch(command) {
             case "ping":
                 pingCommand(event);
