@@ -91,3 +91,7 @@ fabric.properties
 
 # Editor-based Rest Client
 .idea/httpRequests
+
+
+#### C O R N U C O P I A  B O T  S P E C I F I C
+serviceAccountKey.json

@@ -2,7 +2,8 @@ package me.orangeflare.cornucopia;
 
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
-import me.orangeflare.cornucopia.botModules.*;
+//import me.orangeflare.cornucopia.botModules.*;
+import me.orangeflare.cornucopia.googleFirebase.*;
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
 import sx.blah.discord.handle.obj.IChannel;
@@ -15,16 +16,16 @@ import java.util.List;
 
 public class cornucopia {
     private static String BOT_PREFIX = "c!";
-    public static void main(String[] args) {
-        if (args.length != 1) {
+    public static void main(String[] args) throws java.io.IOException {
+        if (args.length != 2) {
             System.err.println("Error with Provided Arguments!");
-            System.out.println("  Did you forget to supply the API Token?");
-            System.out.println("  Ex: java -jar cornucopia.jar [API Token Here]");
+            System.out.println("  Did you forget to supply the API Token/Firebase Project ID?");
+            System.out.println("  Ex: java -jar cornucopia.jar [API Token Here] [Firebase Project ID]");
             return;
         }
+        firebase.init(args[1]);
         IDiscordClient bot = getBuiltDiscordClient(args[0]);
         bot.getDispatcher().registerListener(new cornucopia());
-        bot.getDispatcher().registerListener(new coreCommands());
         bot.login();
     }
     private static IDiscordClient getBuiltDiscordClient(String botToken) {
@@ -36,7 +37,7 @@ public class cornucopia {
                 channel.sendMessage(message);
             } catch (DiscordException error){
                 System.err.println("[ERROR] Message Failed to send: ");
-                error.printStackTrace();
+                System.err.println("        " + error.getErrorMessage());
             }
         });
     }
@@ -51,13 +52,10 @@ public class cornucopia {
         argsList.remove(0);
         switch(command) {
             case "ping":
-                coreCommands.pingCommand(event);
+                pingCommand(event);
                 System.out.println("[INFO] 'ping' Command Received!");
-                System.out.println("       Command sent by " + getDisplayName(event));
-            case "add":
-                coreCommands.addCommand(event, argsList);
-                System.out.println("[INFO] 'add' Command Received!");
                 System.out.println("       Command sent by " + getDisplayName(event));
         }
     }
+    public static void pingCommand(MessageReceivedEvent event){ sendMessage(event.getChannel(), "Pong!"); }
 }
