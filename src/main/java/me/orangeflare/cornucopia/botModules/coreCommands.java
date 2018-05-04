@@ -20,6 +20,7 @@ public class coreCommands {
         String command = argArray[0].substring(2).toLowerCase();
         List<String> argsList = new ArrayList<>(Arrays.asList(argArray));
         argsList.remove(0);
+
         switch(command) {
             case "ping":
                 pingCommand(event);
