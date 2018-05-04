@@ -3,6 +3,10 @@ package me.orangeflare.cornucopia;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import me.orangeflare.cornucopia.botModules.*;
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
+import sx.blah.discord.handle.obj.IChannel;
+import sx.blah.discord.util.DiscordException;
+import sx.blah.discord.util.RequestBuffer;
 
 public class cornucopia {
     public static String BOT_PREFIX = "c!";
@@ -20,4 +24,15 @@ public class cornucopia {
     private static IDiscordClient getBuiltDiscordClient(String botToken) {
         return new ClientBuilder().withToken(botToken).build();
     }
+    public static void sendMessage(IChannel channel, String message) {
+        RequestBuffer.request(() -> {
+            try {
+                channel.sendMessage(message);
+            } catch (DiscordException error){
+                System.err.println("[ERROR] Message Failed to send: ");
+                error.printStackTrace();
+            }
+        });
+    }
+    public static String getDisplayName(MessageReceivedEvent event) { return event.getAuthor().getDisplayName(event.getGuild()) + " (" + event.getAuthor().getName() + ")"; }
 }

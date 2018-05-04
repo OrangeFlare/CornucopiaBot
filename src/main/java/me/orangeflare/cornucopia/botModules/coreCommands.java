@@ -2,28 +2,16 @@ package me.orangeflare.cornucopia.botModules;
 
 import sx.blah.discord.api.events.EventSubscriber;
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent;
-import sx.blah.discord.handle.obj.IChannel;
-import sx.blah.discord.util.DiscordException;
-import sx.blah.discord.util.RequestBuffer;
 import me.orangeflare.cornucopia.cornucopia;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class coreCommands {
-    public static void sendMessage(IChannel channel, String message) {
-        RequestBuffer.request(() -> {
-            try {
-                channel.sendMessage(message);
-            } catch (DiscordException error){
-                System.err.println("[ERROR] Message Failed to send: ");
-                error.printStackTrace();
-            }
-        });
-    }
-    public static String getDisplayName(MessageReceivedEvent event) { return event.getAuthor().getDisplayName(event.getGuild()) + " (" + event.getAuthor().getName() + ")"; }
+import static me.orangeflare.cornucopia.cornucopia.getDisplayName;
+import static me.orangeflare.cornucopia.cornucopia.sendMessage;
 
+public class coreCommands {
     @EventSubscriber
     public void onMessageReceived(MessageReceivedEvent event) {
         String[] argArray = event.getMessage().getContent().split(" ");
