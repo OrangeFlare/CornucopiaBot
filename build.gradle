@@ -2,16 +2,16 @@ plugins {
     id 'java'
 }
 
-group 'me.orangeflare.cornucopia'
+group 'orangeflare.me'
 version '1.0.0.0'
 
 sourceCompatibility = 1.8
 
 repositories {
-    jcenter()
     mavenCentral()
+    jcenter() //This prevents issues with transitive dependencies
     maven {
-        url "https://jitpack.io"
+        url  "https://jitpack.io"
     }
 }
 
@@ -31,7 +31,7 @@ jar {
     manifest {
         attributes(
                 'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
-                'Main-Class': 'cornucopia'
+                'Main-Class': 'me.orangeflare.cornucopia.main'
         )
     }
 
